@@ -51,8 +51,8 @@ public class RunResearch {
                 System.out.println("Logged in as " + user.prettyPrint());
             }
 
-            System.out.println(user);
-
+//            System.out.println(user);
+//
             while (true) {
                 System.out.println("Enter Command (ex. help)");
                 String line = inputStream.readLine();
@@ -77,6 +77,15 @@ public class RunResearch {
     }
 
     private static void staff(String facultyID) {
+
+        String query = "SELECT `first_name`,`last_name`,`department`,`email` FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '"+facultyID+"';";
+        try {
+            Database db = new Database();
+            System.out.println("\n");
+            db.printSearchResaults(query);
+        } catch (ResearchException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -106,6 +115,7 @@ public class RunResearch {
             idString=idString.substring(0, idString.length() - 1);
 
             String query = "SELECT * from project where project_id IN ("+idString+");";
+            System.out.println("\nProjects matching your search criteria:");
             db.printSearchResaults(query);
 
         } catch (ResearchException e) {

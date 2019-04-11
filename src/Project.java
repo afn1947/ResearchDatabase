@@ -8,8 +8,8 @@ public class Project {
     private String startDate;
     private String endDate;
     private String field;
-    private String facultyEmps;
-    private String studentEmps;
+//    private String facultyEmps;
+//    private String studentEmps;
     private String description;
 
     public Project(int ID) {
@@ -22,7 +22,7 @@ public class Project {
     }
 
     public boolean contains(String criteria){
-        return this.name.contains(criteria) || this.field.contains(criteria) || this.facultyEmps.contains(criteria) || this.studentEmps.contains(criteria) || this.description.contains(criteria);
+        return this.name.contains(criteria) || this.field.contains(criteria)  || this.description.contains(criteria);
     }
 
 
@@ -33,13 +33,12 @@ public class Project {
         ArrayList result = db.getData(query,false);
         if (!(result.isEmpty())) {
             ArrayList row = (ArrayList) result.get(0);
+//            System.out.println(row);
             this.name = (String) row.get(1);
             this.startDate = (String) row.get(2);
             this.endDate = (String) row.get(3);
             this.field= (String) row.get(4);
-            this.facultyEmps= (String) row.get(5);
-            this.studentEmps= (String) row.get(6);
-            this.description= (String) row.get(7);
+            this.description= (String) row.get(5);
             db.close();
             return true;
         } else {
@@ -49,7 +48,7 @@ public class Project {
 
     public boolean containsString(String criteria){
         System.out.println(criteria);
-        return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria) || facultyEmps.contains(criteria) || studentEmps.contains(criteria) || description.contains(criteria);
+        return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria)  || description.contains(criteria);
     }
 
     @Override
@@ -60,8 +59,6 @@ public class Project {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", field='" + field + '\'' +
-                ", facultyEmps='" + facultyEmps + '\'' +
-                ", studentEmps='" + studentEmps + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

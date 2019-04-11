@@ -212,7 +212,7 @@ public class Database {
             String output = String.format("%-"+longestColName+"s","Column Name");
             output+="   ";
             output += String.format("%-"+longestColType+"s","Column Type");
-            System.out.println(output);
+            //System.out.println(output);
             int k =0;
             // Stores the width of the field needed to pretty print correctly
             LinkedList length = new LinkedList();
@@ -220,7 +220,7 @@ public class Database {
 
             while (k< colName.size()){
                 length.add(colName.get(k).length());
-                System.out.println(String.format("%-"+longestColName+"s",colName.get(k))+"   "+String.format("%"+longestColType+"s",colTypes.get(k))+"(" +metaData.getPrecision(k+1)+")");
+                //System.out.println(String.format("%-"+longestColName+"s",colName.get(k))+"   "+String.format("%"+longestColType+"s",colTypes.get(k))+"(" +metaData.getPrecision(k+1)+")");
                 k++;
             }
 
@@ -236,7 +236,7 @@ public class Database {
                     }
                 }
             }
-            System.out.println("\nProjects matching your search criteria:");
+
             String separator = separatorGen(length);
             System.out.println(separator);
             //creating the headers

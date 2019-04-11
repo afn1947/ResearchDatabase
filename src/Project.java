@@ -47,6 +47,11 @@ public class Project {
         }
     }
 
+    public boolean containsString(String criteria){
+        System.out.println(criteria);
+        return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria) || facultyEmps.contains(criteria) || studentEmps.contains(criteria) || description.contains(criteria);
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -59,5 +64,9 @@ public class Project {
                 ", studentEmps='" + studentEmps + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public int getID(){
+        return this.ID;
     }
 }

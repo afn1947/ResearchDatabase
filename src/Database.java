@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Database {
 
@@ -186,4 +187,98 @@ public class Database {
         }
         return projects;
     }
+
+    public void printSearchResaults(String query) throws ResearchException {
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            ResultSetMetaData metaData = rs.getMetaData();
+            int colNum = metaData.getColumnCount();
+            ArrayList<String> colName = new ArrayList<>();
+            ArrayList<String> colTypes = new ArrayList<>();
+            int longestColName = "Column Name".length();
+            int longestColType = "Column Type".length();
+            int i = 1;
+            //creating arrays with column names and types and setting the longest value of each for pretty printing later
+            while (i<=colNum){
+                colName.add(metaData.getColumnName(i));
+                longestColName = (metaData.getColumnName(i).length()>longestColName) ? metaData.getColumnName(i).length() : longestColName;
+                longestColType = (metaData.getColumnTypeName(i).length()>longestColType) ? metaData.getColumnTypeName(i).length() : longestColType;
+                colTypes.add(metaData.getColumnTypeName(i));
+                i++;
+            }
+            // output the column names and types
+            String output = String.format("%-"+longestColName+"s","Column Name");
+            output+="   ";
+            output += String.format("%-"+longestColType+"s","Column Type");
+            System.out.println(output);
+            int k =0;
+            // Stores the width of the field needed to pretty print correctly
+            LinkedList length = new LinkedList();
+
+
+            while (k< colName.size()){
+                length.add(colName.get(k).length());
+                System.out.println(String.format("%-"+longestColName+"s",colName.get(k))+"   "+String.format("%"+longestColType+"s",colTypes.get(k))+"(" +metaData.getPrecision(k+1)+")");
+                k++;
+            }
+
+            //Pretty Print the data dynamically
+            ArrayList<ArrayList> data = getData(query);
+            //setting correct lengths for column width
+            for (ArrayList entry: data){
+                for (int j = 0;j<entry.size();j++){
+                    if (entry.get(j)!=null) {
+                        if (entry.get(j).toString().length() > (int) length.get(j)) {
+                            length.set(j, entry.get(j).toString().length());
+                        }
+                    }
+                }
+            }
+            System.out.println("\nProjects matching your search criteria:");
+            String separator = separatorGen(length);
+            System.out.println(separator);
+            //creating the headers
+            StringBuilder line = new StringBuilder();
+            for (String name:colName){
+                line.append(String.format("| %-"+length.get(colName.indexOf(name))+"s ",name));
+            }
+            line.append("|");
+            System.out.println(line);
+            System.out.println(separator);
+
+            // printing the data in the table
+
+            for (ArrayList entry:data){
+                StringBuilder out = new StringBuilder();
+                int len = 0;
+                for (Object item:entry){
+                    if (item==null){
+                        out.append(String.format("| %-"+length.get(len)+"s ","NULL"));
+                    }else {
+                        out.append(String.format("| %-"+length.get(len)+"s ",item.toString()));
+                    }
+                    len++;
+                }
+                out.append("|");
+                System.out.println(out);
+            }
+            System.out.println(separator);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ResearchException(e,"DescTable Query: "+query);
+        }
+
+    }
+    private String separatorGen(LinkedList length){
+        StringBuilder line = new StringBuilder();
+        for (Object i: length){
+            line.append("+");
+            line.append("-".repeat((int) i + 2));
+        }
+        line.append("+");
+        return line.toString();
+    }
+
 }

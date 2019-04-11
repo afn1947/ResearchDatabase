@@ -1,6 +1,6 @@
 public class User {
 
-    private int ID;
+    protected int ID;
     protected String fname;
     protected String lname;
 
@@ -18,5 +18,8 @@ public class User {
                 System.out.println(project);
             }
         }
+    }
+    public String prettyPrint(){
+        return fname+" "+lname+" "+"ID#: "+ID;
     }
 }

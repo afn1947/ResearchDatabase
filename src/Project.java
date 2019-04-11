@@ -8,8 +8,6 @@ public class Project {
     private String startDate;
     private String endDate;
     private String field;
-//    private String facultyEmps;
-//    private String studentEmps;
     private String description;
 
     public Project(int ID) {
@@ -19,6 +17,15 @@ public class Project {
         }catch (ResearchException e){
             //Squash
         }
+    }
+
+    public Project(int ID, String name, String startDate, String endDate, String field, String description) {
+        this.ID = ID;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.field = field;
+        this.description = description;
     }
 
     public boolean contains(String criteria){
@@ -44,6 +51,14 @@ public class Project {
         } else {
             return false;
         }
+    }
+
+    public void put() throws ResearchException{
+        Database db = new Database();
+
+        String query = "INSERT INTO project VALUES('"+this.ID+"', '"+this.name+"', '"+this.startDate+"', '"+this.endDate+"', '"+this.field+"', '"+this.description+":');";
+        db.setData(query);
+        db.close();
     }
 
     public boolean containsString(String criteria){

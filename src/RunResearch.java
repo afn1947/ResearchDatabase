@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,8 +71,13 @@ public class RunResearch {
                 }else if (cmd[0].equalsIgnoreCase("faculty")){
                     staff(cmd[1]);
                 }else if (cmd[0].equalsIgnoreCase("add")){
+                    add(inputStream);
 
-                }else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")){
+
+                }else if (cmd[0].equalsIgnoreCase("edit")){
+
+                }
+                else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")){
                     System.exit(0);
                 }
             }
@@ -82,6 +88,45 @@ public class RunResearch {
         }
     }
 
+    private static void add(BufferedReader input) {
+        String id;
+        try {
+            while (true) {
+                System.out.println("Enter UNIQUE projectID:");
+                 id= input.readLine();
+                if (checkID(id)){
+                    break;
+                }
+            }
+            System.out.println("Enter Project Name:");
+            String name=input.readLine();
+            System.out.println("Enter Start date (yyyy-mm-dd):");
+            String start=input.readLine();
+            System.out.println("Enter end date (yyyy-mm-dd):");
+            String end=input.readLine();
+            System.out.println("Enter Field of Research:");
+            String field = input.readLine();
+            System.out.println("Enter a description:");
+            String description = input.readLine();
+
+            Project project = new Project(Integer.parseInt(id),name,start,end,field,description);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ResearchException e) {
+            //squash
+        }
+    }
+
+    private static boolean checkID(String id) throws ResearchException {
+        Database db = new Database();
+        ArrayList<ArrayList> data = db.getData("SELECT `project_ID` from project where `project_ID`='"+id+"';");
+        db.close();
+        return data.isEmpty();
+
+
+    }
+
     private static void staff(String facultyID) {
 
         String query = "SELECT `first_name`,`last_name`,`department`,`email` FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '"+facultyID+"';";
@@ -89,6 +134,7 @@ public class RunResearch {
             Database db = new Database();
             System.out.println("\n");
             db.printSearchResaults(query);
+            db.close();
         } catch (ResearchException e) {
             e.printStackTrace();
         }
@@ -123,7 +169,7 @@ public class RunResearch {
             String query = "SELECT * from project where project_id IN ("+idString+");";
             System.out.println("\nProjects matching your search criteria:");
             db.printSearchResaults(query);
-
+            db.close();
         } catch (ResearchException e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ public class Faculty extends User {
         super(fname, lname);
         try {
             Database db = new Database();
-            ArrayList<ArrayList> data = db.getData("SELECT `email`,`department`,`current_projects`,`interests` FROM faculty WHERE first_name=`"+this.fname+"` AND last_name = `"+this.lname+"`;");
+            ArrayList<ArrayList> data = db.getData("SELECT `email`,`department`,`current_projects`,`interests` FROM faculty WHERE first_name= '"+this.fname+"' AND last_name = `"+this.lname+"`;");
             email=(String) data.get(0).get(0);
             department=(String) data.get(0).get(1);
             currentProjects=(String) data.get(0).get(2);
@@ -20,5 +20,18 @@ public class Faculty extends User {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "Faculty{" +
+                "fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", email='" + email + '\'' +
+                ", department='" + department + '\'' +
+                ", currentProjects='" + currentProjects + '\'' +
+                ", interests='" + interests + '\'' +
+
+                '}';
     }
 }

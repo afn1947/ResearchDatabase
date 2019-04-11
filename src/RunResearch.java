@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,6 +7,7 @@ import java.util.LinkedHashSet;
 
 public class RunResearch {
 
+    private static User user;
 
     public static void main(String[] args) {
         try {
@@ -30,7 +32,7 @@ public class RunResearch {
     private static void run() {
         BufferedReader inputStream = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Enter student, faculty, or public:");
-        User user = null;
+        user= null;
 
         try {
             String input = inputStream.readLine();
@@ -67,6 +69,10 @@ public class RunResearch {
                     search(cmd);
                 }else if (cmd[0].equalsIgnoreCase("faculty")){
                     staff(cmd[1]);
+                }else if (cmd[0].equalsIgnoreCase("add")){
+
+                }else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")){
+                    System.exit(0);
                 }
             }
 
@@ -129,13 +135,17 @@ public class RunResearch {
     private static void help() {
         System.out.println("Valid Command:");
         System.out.println("search <Criteria>");
-        System.out.println("contact <first last>");
+        //System.out.println("contact <first last>");
         System.out.println("faculty <project ID>");
+        if (user instanceof Faculty){
+            System.out.println("add project");
+            System.out.println("edit <Project ID>");
+        }
+        System.out.println("quit");
     }
 
 
     private static boolean check(String input) {
         return input.equals("");
     }
-
 }

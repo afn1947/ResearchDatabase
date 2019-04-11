@@ -8,13 +8,16 @@ public class Database {
     private String user;
     private String pass;
     private Connection conn;
+    private ArrayList<Project> projects;
 
     public Database() throws ResearchException {
         uri = "jdbc:mysql://localhost/research?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         driver = "com.mysql.cj.jdbc.Driver";
         user = "root";
         pass = "student";
+        projects=null;
         this.connect();
+
     }
 
 
@@ -169,5 +172,18 @@ public class Database {
         } catch (Exception e) {
             throw new ResearchException(e, "Close database function failed");
         }
+    }
+    public ArrayList<Project> getProjects() throws ResearchException {
+        if (projects!=null){
+            return projects;
+        }
+        ArrayList<Project> projects = new ArrayList<>();
+        String query = "SELECT project_id FROM project;";
+        Database db = new Database();
+        ArrayList<ArrayList> data = db.getData(query);
+        for (ArrayList line:data){
+            projects.add(new Project( Integer.parseInt((String) line.get(0)) ));
+        }
+        return projects;
     }
 }

@@ -90,6 +90,7 @@ public class RunResearch {
 
     private static void add(BufferedReader input) {
         String id;
+        System.out.println("No blank values allowed");
         try {
             while (true) {
                 System.out.println("Enter UNIQUE projectID:");
@@ -110,6 +111,7 @@ public class RunResearch {
             String description = input.readLine();
 
             Project project = new Project(Integer.parseInt(id),name,start,end,field,description);
+            project.put();
 
         } catch (IOException e) {
             e.printStackTrace();

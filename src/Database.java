@@ -47,6 +47,9 @@ public class Database {
         }
     }
 
+    /**
+     *private helper for get data formatting
+     */
     private ArrayList<ArrayList> getDataArray(PreparedStatement stmt, boolean headers) throws ResearchException {
         ArrayList<ArrayList> result = new ArrayList<>();
         try {
@@ -122,7 +125,9 @@ public class Database {
         return getDataArray(stmt, true);
     }
 
-
+    /**
+     *private helper for get data
+     */
     private ArrayList<ArrayList> generateArray(ResultSet rs,boolean headers) throws SQLException {
         ArrayList<ArrayList> result = new ArrayList<>();
         ResultSetMetaData metaData = rs.getMetaData();
@@ -174,6 +179,12 @@ public class Database {
             throw new ResearchException(e, "Close database function failed");
         }
     }
+
+    /**
+     * Returns a list of all the projects currently being worked on
+     * @return list of projects
+     * @throws ResearchException something went wrong
+     */
     public ArrayList<Project> getProjects() throws ResearchException {
         if (projects!=null){
             return projects;
@@ -188,6 +199,11 @@ public class Database {
         return projects;
     }
 
+    /**
+     * prints the search results in a nice way
+     * @param query
+     * @throws ResearchException
+     */
     public void printSearchResaults(String query) throws ResearchException {
 
         try {

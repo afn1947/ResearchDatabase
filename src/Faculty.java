@@ -10,9 +10,10 @@ public class Faculty extends User {
         super(fname, lname);
         try {
             Database db = new Database();
-            ArrayList<ArrayList> data = db.getData("SELECT `email`,`department` FROM faculty WHERE first_name= '"+this.fname+"' AND last_name = '"+this.lname+"';");
+            ArrayList<ArrayList> data = db.getData("SELECT `email`,`department`,`faculty_id` FROM faculty WHERE first_name= '"+this.fname+"' AND last_name = '"+this.lname+"';");
             email=(String) data.get(0).get(0);
             department=(String) data.get(0).get(1);
+            super.ID= Integer.parseInt((String)data.get(0).get(2));
 
         } catch (ResearchException e) {
             e.printStackTrace();

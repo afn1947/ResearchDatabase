@@ -30,10 +30,14 @@ public class RunResearch {
         }
     }
 
+    /**
+     * Run loop for getting user input and accessing the database
+     */
     private static void run() {
+
         BufferedReader inputStream = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Enter student, faculty, or public:");
-        user= null;
+        user = null;
 
         try {
             String input = inputStream.readLine();
@@ -54,8 +58,6 @@ public class RunResearch {
                 System.out.println("Logged in as " + user.prettyPrint());
             }
 
-//            System.out.println(user);
-//
             while (true) {
                 System.out.println("Enter Command (ex. help)");
                 String line = inputStream.readLine();
@@ -65,55 +67,57 @@ public class RunResearch {
                 String[] cmd = line.split(" ");
                 if (cmd[0].equalsIgnoreCase("help")) {
                     help();
-                } else if (cmd[0].equalsIgnoreCase("search")){
-                    if (cmd.length>1){
+                } else if (cmd[0].equalsIgnoreCase("search")) {
+                    if (cmd.length > 1) {
                         search(cmd);
-                    }else {
+                    } else {
                         System.out.println("Invalid Command!");
                     }
-                }else if (cmd[0].equalsIgnoreCase("faculty")){
+                } else if (cmd[0].equalsIgnoreCase("faculty")) {
                     staff(cmd[1]);
-                }else if (cmd[0].equalsIgnoreCase("add")){
-                    if (user instanceof Faculty){
+                } else if (cmd[0].equalsIgnoreCase("add")) {
+                    if (user instanceof Faculty) {
                         add(inputStream);
-                    }else {
+                    } else {
                         System.out.println("PERMISSION DENIED");
                     }
-                }else if (cmd[0].equalsIgnoreCase("edit")){
-                    if (user instanceof Faculty){
+                } else if (cmd[0].equalsIgnoreCase("edit")) {
+                    if (user instanceof Faculty) {
                         edit(inputStream);
-                    }else {
+                    } else {
                         System.out.println("PERMISSION DENIED");
                     }
-                }
-                else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")){
+                } else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")) {
                     System.exit(0);
                 }
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Allows faculty users to edit a project
+     *
+     * @param input Stream to get input from
+     */
     private static void edit(BufferedReader input) {
         System.out.println("Enter ID of project to edit:");
         try {
             String id = input.readLine();
             System.out.println("Enter Project Name:");
-            String name=input.readLine();
+            String name = input.readLine();
             System.out.println("Enter Start date (yyyy-mm-dd):");
-            String start=input.readLine();
+            String start = input.readLine();
             System.out.println("Enter end date (yyyy-mm-dd):");
-            String end=input.readLine();
+            String end = input.readLine();
             System.out.println("Enter Field of Research:");
             String field = input.readLine();
             System.out.println("Enter a description:");
             String description = input.readLine();
-            Project project = new Project(Integer.parseInt(id),name,start,end,field,description);
+            Project project = new Project(Integer.parseInt(id), name, start, end, field, description);
             Database db = new Database();
-            db.setData("DELETE FROM `project` WHERE `project_id` = '"+id+ "';");
+            db.setData("DELETE FROM `project` WHERE `project_id` = '" + id + "';");
             db.close();
             project.put();
             System.out.println("Updated!");
@@ -122,33 +126,36 @@ public class RunResearch {
         } catch (ResearchException e) {
             System.out.println("ERROR");
         }
-
-
     }
 
+    /**
+     * Allows faculty user to add a project
+     *
+     * @param input Stream to get retrieve user input
+     */
     private static void add(BufferedReader input) {
         String id;
         System.out.println("No blank values allowed");
         try {
             while (true) {
                 System.out.println("Enter UNIQUE projectID:");
-                 id= input.readLine();
-                if (checkID(id)){
+                id = input.readLine();
+                if (checkID(id)) {
                     break;
                 }
             }
             System.out.println("Enter Project Name:");
-            String name=input.readLine();
+            String name = input.readLine();
             System.out.println("Enter Start date (yyyy-mm-dd):");
-            String start=input.readLine();
+            String start = input.readLine();
             System.out.println("Enter end date (yyyy-mm-dd):");
-            String end=input.readLine();
+            String end = input.readLine();
             System.out.println("Enter Field of Research:");
             String field = input.readLine();
             System.out.println("Enter a description:");
             String description = input.readLine();
 
-            Project project = new Project(Integer.parseInt(id),name,start,end,field,description);
+            Project project = new Project(Integer.parseInt(id), name, start, end, field, description);
             project.put();
 
         } catch (IOException e) {
@@ -158,18 +165,29 @@ public class RunResearch {
         }
     }
 
+    /**
+     * Checks if the id exists in database
+     *
+     * @param id index to check
+     * @return if the id exists
+     * @throws ResearchException something went wrong
+     */
     private static boolean checkID(String id) throws ResearchException {
         Database db = new Database();
-        ArrayList<ArrayList> data = db.getData("SELECT `project_ID` from project where `project_ID`='"+id+"';");
+        ArrayList<ArrayList> data = db.getData("SELECT `project_ID` from project where `project_ID`='" + id + "';");
         db.close();
         return data.isEmpty();
 
 
     }
 
-    private static void staff(String facultyID) {
-
-        String query = "SELECT `first_name`,`last_name`,`department`,`email` FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '"+facultyID+"';";
+    /**
+     * gets the staff for a project given the project ID
+     *
+     * @param projectID The project ID
+     */
+    private static void staff(String projectID) {
+        String query = "SELECT `first_name`,`last_name`,`department`,`email` FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '" + projectID + "';";
         try {
             Database db = new Database();
             System.out.println("\n");
@@ -181,55 +199,64 @@ public class RunResearch {
 
     }
 
-    private static void search(String[] criteria){
+    /**
+     * searches all projects looking for matches
+     *
+     * @param criteria what the project must match
+     */
+    private static void search(String[] criteria) {
         //System.out.println(criteria);
-        LinkedHashSet<String> ids=new LinkedHashSet<>();
-        List<String> searchWords =  Arrays.asList(criteria);
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        List<String> searchWords = Arrays.asList(criteria);
 
         try {
             Database db = new Database();
             ArrayList<Project> projects = db.getProjects();
-            for (Project project:projects){
-                for (String crit:criteria){
-                    if (!(searchWords.indexOf(crit)==0)){
-                        if (project.containsString(crit)){
-                            ids.add( Integer.toString(project.getID()));
+            for (Project project : projects) {
+                for (String crit : criteria) {
+                    if (!(searchWords.indexOf(crit) == 0)) {
+                        if (project.containsString(crit)) {
+                            ids.add(Integer.toString(project.getID()));
                         }
                     }
                 }
 
             }
-            String idString="";
-            for (String id:ids){
-                idString+=id+",";
+            String idString = "";
+            for (String id : ids) {
+                idString += id + ",";
             }
-            idString=idString.substring(0, idString.length() - 1);
+            idString = idString.substring(0, idString.length() - 1);
 
-            String query = "SELECT * from project where project_id IN ("+idString+");";
+            String query = "SELECT * from project where project_id IN (" + idString + ");";
             System.out.println("\nProjects matching your search criteria:");
             db.printSearchResaults(query);
             db.close();
         } catch (ResearchException e) {
             e.printStackTrace();
         }
-
-
     }
 
-
+    /**
+     * shows the user the valid commands
+     */
     private static void help() {
         System.out.println("Valid Command:");
         System.out.println("search <Criteria>");
         //System.out.println("contact <first last>");
         System.out.println("faculty <project ID>");
-        if (user instanceof Faculty){
+        if (user instanceof Faculty) {
             System.out.println("add project");
             System.out.println("edit <Project ID>");
         }
         System.out.println("quit");
     }
 
-
+    /**
+     * checks if a string is empty
+     * @param input string to check
+     * @return if string is ""
+     */
     private static boolean check(String input) {
         return input.equals("");
     }

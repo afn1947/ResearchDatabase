@@ -57,7 +57,8 @@ public class Project {
         Database db = new Database();
 
         String query = "INSERT INTO project VALUES('"+this.ID+"', '"+this.name+"', '"+this.startDate+"', '"+this.endDate+"', '"+this.field+"', '"+this.description+":');";
-        query.replace("''","'NULL'");
+        query = query.replace(":","");
+        query = query.replace("''", "NULL");
         db.setData(query);
         db.close();
     }

@@ -1,10 +1,10 @@
-import javax.xml.crypto.Data;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class RunResearch {
 
@@ -66,16 +66,25 @@ public class RunResearch {
                 if (cmd[0].equalsIgnoreCase("help")) {
                     help();
                 } else if (cmd[0].equalsIgnoreCase("search")){
-                    cmd[0]="";
-                    search(cmd);
+                    if (cmd.length>1){
+                        search(cmd);
+                    }else {
+                        System.out.println("Invalid Command!");
+                    }
                 }else if (cmd[0].equalsIgnoreCase("faculty")){
                     staff(cmd[1]);
                 }else if (cmd[0].equalsIgnoreCase("add")){
-                    add(inputStream);
-
-
+                    if (user instanceof Faculty){
+                        add(inputStream);
+                    }else {
+                        System.out.println("PERMISSION DENIED");
+                    }
                 }else if (cmd[0].equalsIgnoreCase("edit")){
-
+                    if (user instanceof Faculty){
+                        edit(inputStream);
+                    }else {
+                        System.out.println("PERMISSION DENIED");
+                    }
                 }
                 else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")){
                     System.exit(0);
@@ -86,6 +95,19 @@ public class RunResearch {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void edit(BufferedReader input) {
+        System.out.println("Enter ID of project to edit:");
+        try {
+            String id = input.readLine();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private static void add(BufferedReader input) {
@@ -146,22 +168,21 @@ public class RunResearch {
     private static void search(String[] criteria){
         //System.out.println(criteria);
         LinkedHashSet<String> ids=new LinkedHashSet<>();
+        List<String> searchWords =  Arrays.asList(criteria);
+
         try {
             Database db = new Database();
             ArrayList<Project> projects = db.getProjects();
             for (Project project:projects){
                 for (String crit:criteria){
-                    System.out.println(crit);
-                    if (project.containsString(crit)){
-                        ids.add( Integer.toString(project.getID()));
-                        System.out.println(project);
+                    if (!(searchWords.indexOf(crit)==0)){
+                        if (project.containsString(crit)){
+                            ids.add( Integer.toString(project.getID()));
+                        }
                     }
                 }
+
             }
-
-            System.out.println(ids);
-
-            System.out.println("Search finished");
             String idString="";
             for (String id:ids){
                 idString+=id+",";

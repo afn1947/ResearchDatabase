@@ -63,7 +63,6 @@ public class Project {
     }
 
     public boolean containsString(String criteria){
-        System.out.println(criteria);
         return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria)  || description.contains(criteria);
     }
 

@@ -101,10 +101,26 @@ public class RunResearch {
         System.out.println("Enter ID of project to edit:");
         try {
             String id = input.readLine();
-
-
+            System.out.println("Enter Project Name:");
+            String name=input.readLine();
+            System.out.println("Enter Start date (yyyy-mm-dd):");
+            String start=input.readLine();
+            System.out.println("Enter end date (yyyy-mm-dd):");
+            String end=input.readLine();
+            System.out.println("Enter Field of Research:");
+            String field = input.readLine();
+            System.out.println("Enter a description:");
+            String description = input.readLine();
+            Project project = new Project(Integer.parseInt(id),name,start,end,field,description);
+            Database db = new Database();
+            db.setData("DELETE FROM `project` WHERE `project_id` = '"+id+ "';");
+            db.close();
+            project.put();
+            System.out.println("Updated!");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ResearchException e) {
+            System.out.println("ERROR");
         }
 
 

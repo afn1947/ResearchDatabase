@@ -19,7 +19,4 @@ public class Student extends User {
             System.out.println("Error occurred!");
         }
     }
-
-
-
 }

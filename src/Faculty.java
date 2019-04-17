@@ -5,7 +5,6 @@ public class Faculty extends User {
     private String email;
     private String department;
 
-
     public Faculty(String fname, String lname) {
         super(fname, lname);
         try {

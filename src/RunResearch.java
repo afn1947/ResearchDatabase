@@ -243,7 +243,7 @@ public class RunResearch {
             for (String id : ids) {
                 idString.append(id).append(",");
             }
-            System.out.println(idString);
+//            System.out.println(idString);
             try {
                 idString = new StringBuilder(idString.substring(0, idString.length() - 1));
                 String query = "SELECT * from project where project_id IN (" + idString + ");";

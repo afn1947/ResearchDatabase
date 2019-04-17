@@ -18,7 +18,6 @@ public class Faculty extends User {
         } catch (ResearchException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

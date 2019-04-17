@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -36,28 +37,31 @@ public class RunResearch {
     private static void run() {
 
         BufferedReader inputStream = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter student, faculty, or public:");
         user = null;
-
+        boolean flag = true;
         try {
-            String input = inputStream.readLine();
+            while (flag) {
+                System.out.println("Enter student, faculty, or public:");
+                String input = inputStream.readLine();
 
-            if (check(input) || !(input.equalsIgnoreCase("student") || input.equalsIgnoreCase("faculty") || input.equalsIgnoreCase("public"))) {
-                System.out.println("Invalid input");
-                System.exit(0);
-            } else if (!input.equalsIgnoreCase("public")) {
-                System.out.println("Enter first name:");
-                String fname = inputStream.readLine();
-                System.out.println("Enter Last name:");
-                String lname = inputStream.readLine();
-                if (input.equalsIgnoreCase("student")) {
-                    user = new Student(fname, lname);
-                } else if (input.equalsIgnoreCase("faculty")) {
-                    user = new Faculty(fname, lname);
+                if (check(input) || !(input.equalsIgnoreCase("student") || input.equalsIgnoreCase("faculty") || input.equalsIgnoreCase("public"))) {
+                    System.out.println("Invalid input\n");
+                } else if (!input.equalsIgnoreCase("public")) {
+                    System.out.println("Enter first name:");
+                    String fname = inputStream.readLine();
+                    System.out.println("Enter Last name:");
+                    String lname = inputStream.readLine();
+                    if (input.equalsIgnoreCase("student")) {
+                        user = new Student(fname, lname);
+                    } else if (input.equalsIgnoreCase("faculty")) {
+                        user = new Faculty(fname, lname);
+                    }
+                    System.out.println("Logged in as " + user.prettyPrint());
+                    flag=false;
+                }else {
+                    flag=false;
                 }
-                System.out.println("Logged in as " + user.prettyPrint());
             }
-
             while (true) {
                 System.out.println("Enter Command (ex. help)");
                 String line = inputStream.readLine();
@@ -87,13 +91,26 @@ public class RunResearch {
                     } else {
                         System.out.println("PERMISSION DENIED");
                     }
-                } else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit")) {
+                } else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit") || cmd[0].equalsIgnoreCase("q")) {
+                    System.out.println("Goodbye!");
                     System.exit(0);
+                }else {
+                    System.out.println("Invalid input! Enter help to view commands");
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean check(String fname, String lname) {
+        try {
+            Database db = new Database();
+//            ArrayList<ArrayList> data = db.getData("SELECT `first_name` FROM student JOIN faculty USING (")
+        } catch (ResearchException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
@@ -222,16 +239,21 @@ public class RunResearch {
                 }
 
             }
-            String idString = "";
+            StringBuilder idString = new StringBuilder();
             for (String id : ids) {
-                idString += id + ",";
+                idString.append(id).append(",");
             }
-            idString = idString.substring(0, idString.length() - 1);
-
-            String query = "SELECT * from project where project_id IN (" + idString + ");";
-            System.out.println("\nProjects matching your search criteria:");
-            db.printSearchResaults(query);
-            db.close();
+            System.out.println(idString);
+            try {
+                idString = new StringBuilder(idString.substring(0, idString.length() - 1));
+                String query = "SELECT * from project where project_id IN (" + idString + ");";
+                System.out.println("\nProjects matching your search criteria:");
+                db.printSearchResaults(query);
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println("No projects found that match the search criteria!\n");
+            } finally {
+                db.close();
+            }
         } catch (ResearchException e) {
             e.printStackTrace();
         }
@@ -254,6 +276,7 @@ public class RunResearch {
 
     /**
      * checks if a string is empty
+     *
      * @param input string to check
      * @return if string is ""
      */

@@ -204,7 +204,7 @@ public class RunResearch {
      * @param projectID The project ID
      */
     private static void staff(String projectID) {
-        String query = "SELECT `first_name`,`last_name`,`department`,`email` FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '" + projectID + "';";
+        String query = "SELECT `first_name` AS 'First Name' ,`last_name` AS 'Last Name' ,`department` AS 'Department' ,`email` AS 'EMAIL' FROM faculty JOIN faculty_project USING (faculty_ID) WHERE project_ID = '" + projectID + "';";
         try {
             Database db = new Database();
             System.out.println("\n");
@@ -237,7 +237,6 @@ public class RunResearch {
                         }
                     }
                 }
-
             }
             StringBuilder idString = new StringBuilder();
             for (String id : ids) {

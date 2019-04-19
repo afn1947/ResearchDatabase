@@ -8,7 +8,6 @@ public class User {
     public User(String fname, String lname) {
         this.fname = fname;
         this.lname = lname;
-
     }
 
     /**

@@ -51,15 +51,18 @@ public class RunResearch {
                     String fname = inputStream.readLine();
                     System.out.println("Enter Last name:");
                     String lname = inputStream.readLine();
-                    if (input.equalsIgnoreCase("student")) {
-                        user = new Student(fname, lname);
-                    } else if (input.equalsIgnoreCase("faculty")) {
-                        user = new Faculty(fname, lname);
+                    try {
+                        if (input.equalsIgnoreCase("student")) {
+                            user = new Student(fname, lname);
+                        } else if (input.equalsIgnoreCase("faculty")) {
+                            user = new Faculty(fname, lname);
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Login Failed!\n");
+                        continue;
                     }
                     System.out.println("Logged in as " + user.prettyPrint());
-                    flag=false;
-                }else {
-                    flag=false;
+                    flag = false;
                 }
             }
             while (true) {
@@ -94,7 +97,7 @@ public class RunResearch {
                 } else if (cmd[0].equalsIgnoreCase("exit") || cmd[0].equalsIgnoreCase("quit") || cmd[0].equalsIgnoreCase("q")) {
                     System.out.println("Goodbye!");
                     System.exit(0);
-                }else {
+                } else {
                     System.out.println("Invalid input! Enter help to view commands");
                 }
             }
@@ -262,7 +265,7 @@ public class RunResearch {
      * shows the user the valid commands
      */
     private static void help() {
-        System.out.println("Valid Command:");
+        System.out.println("Valid Commands:");
         System.out.println("search <Criteria>");
         //System.out.println("contact <first last>");
         System.out.println("faculty <project ID>");

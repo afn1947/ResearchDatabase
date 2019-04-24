@@ -1,27 +1,31 @@
+/**
+ * The super class for all users that stores some common behavior
+ *
+ * @author Avery Nutting-Hartman
+ */
 public class User {
 
-    protected int ID;
-    protected String fname;
-    protected String lname;
+    /**
+     * The ID of the user
+     */
+    int ID;
+    /**
+     * The first name of the user
+     */
+    String fname;
+    /**
+     * The last name of the user
+     */
+    String lname;
 
-
+    /**
+     * Creates a user object
+     * @param fname The first name
+     * @param lname The last name
+     */
     public User(String fname, String lname) {
         this.fname = fname;
         this.lname = lname;
-    }
-
-    /**
-     * Allows users to search for projects
-     * @param criteria search criteria
-     * @throws ResearchException something went wrong
-     */
-    public void search(String criteria) throws ResearchException {
-        for(Project project:new Database().getProjects()){
-
-            if (project.contains(criteria)){
-                System.out.println(project);
-            }
-        }
     }
 
     /**

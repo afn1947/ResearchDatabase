@@ -1,34 +1,30 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * Main class that runs the Faculty Research project application
+ *
+ * @author Avery Nutting-Hartman
+ * @author Joseph Nowak
+ * @author Soham Sen
+ * @author Ethan Soltis
+ *
+ */
+
 public class RunResearch {
 
+    /**
+     * The user that logged in
+     */
     private static User user;
 
     public static void main(String[] args) {
-        try {
-            Database db = new Database();
-//            System.out.println(db.getData("SELECT * FROM project;"));
-            Project project = new Project(1111);
-//            System.out.println(project);
-            ArrayList<Project> projects = db.getProjects();
-            System.out.println(projects);
-            User user = new User("Avery", "Nutting-Hartman");
-
-
-            db.close();
-            run();
-        } catch (ResearchException e) {
-
-            System.out.println("Exception occurred");
-
-        }
+        run();
     }
 
     /**
@@ -44,7 +40,10 @@ public class RunResearch {
                 System.out.println("Enter student, faculty, or public:");
                 String input = inputStream.readLine();
 
-                if (check(input) || !(input.equalsIgnoreCase("student") || input.equalsIgnoreCase("faculty") || input.equalsIgnoreCase("public"))) {
+                if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit")|| input.equalsIgnoreCase("exit")){
+                    System.out.println("Goodbye!");
+                    System.exit(1);
+                } else if(!(checkIfBlank(input) || input.equalsIgnoreCase("student") || input.equalsIgnoreCase("faculty") || input.equalsIgnoreCase("public"))) {
                     System.out.println("Invalid input\n");
                 } else if (!input.equalsIgnoreCase("public")) {
                     System.out.println("Enter first name:");
@@ -63,12 +62,14 @@ public class RunResearch {
                     }
                     System.out.println("Logged in as " + user.prettyPrint());
                     flag = false;
+                }else {
+                    flag = false;
                 }
             }
             while (true) {
-                System.out.println("Enter Command (ex. help)");
+                System.out.println("Enter Command (ex. help):");
                 String line = inputStream.readLine();
-                if (check(line)) {
+                if (checkIfBlank(line)) {
                     System.out.println("Invalid input! Enter help for help.");
                 }
                 String[] cmd = line.split(" ");
@@ -104,16 +105,6 @@ public class RunResearch {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean check(String fname, String lname) {
-        try {
-            Database db = new Database();
-//            ArrayList<ArrayList> data = db.getData("SELECT `first_name` FROM student JOIN faculty USING (")
-        } catch (ResearchException e) {
-            e.printStackTrace();
-        }
-        return true;
     }
 
     /**
@@ -188,7 +179,7 @@ public class RunResearch {
     /**
      * Checks if the id exists in database
      *
-     * @param id index to check
+     * @param id index to checkIfBlank
      * @return if the id exists
      * @throws ResearchException something went wrong
      */
@@ -267,7 +258,6 @@ public class RunResearch {
     private static void help() {
         System.out.println("Valid Commands:");
         System.out.println("search <Criteria>");
-        //System.out.println("contact <first last>");
         System.out.println("faculty <project ID>");
         if (user instanceof Faculty) {
             System.out.println("add project");
@@ -279,10 +269,10 @@ public class RunResearch {
     /**
      * checks if a string is empty
      *
-     * @param input string to check
+     * @param input string to checkIfBlank
      * @return if string is ""
      */
-    private static boolean check(String input) {
+    private static boolean checkIfBlank(String input) {
         return input.equals("");
     }
 }

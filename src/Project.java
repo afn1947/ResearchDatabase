@@ -1,14 +1,45 @@
 import java.util.ArrayList;
-
+/**
+ * Represents a project entry in the database
+ *
+ * @author Avery Nutting-Hartman
+ */
 public class Project {
 
+    /**
+     * The Projects ID number
+     */
     private int ID;
+
+    /**
+     * The project name
+     */
     private String name;
+
+    /**
+     * project start date
+     */
     private String startDate;
+
+    /**
+     * The project end date
+     */
     private String endDate;
+
+    /**
+     * The field the project is in
+     */
     private String field;
+
+    /**
+     * A description of the project
+     */
     private String description;
 
+    /**
+     * Creates a new project object
+     * @param ID The id of the project
+     */
     public Project(int ID) {
         this.ID = ID;
         try {
@@ -18,6 +49,9 @@ public class Project {
         }
     }
 
+    /**
+     *creates a projects with all the fields passed in
+     */
     public Project(int ID, String name, String startDate, String endDate, String field, String description) {
         this.ID = ID;
         this.name = name;
@@ -27,11 +61,11 @@ public class Project {
         this.description = description;
     }
 
-    public boolean contains(String criteria) {
-        return this.name.contains(criteria) || this.field.contains(criteria) || this.description.contains(criteria);
-    }
 
-
+    /**
+     * Gets and set the empty fields based on whats in the database using the project ID
+     * @throws ResearchException when the query fails
+     */
     private void fetch() throws ResearchException {
         Database db = new Database();
 
@@ -39,7 +73,6 @@ public class Project {
         ArrayList result = db.getData(query, false);
         if (!(result.isEmpty())) {
             ArrayList row = (ArrayList) result.get(0);
-//            System.out.println(row);
             this.name = (String) row.get(1);
             this.startDate = (String) row.get(2);
             this.endDate = (String) row.get(3);
@@ -54,9 +87,12 @@ public class Project {
         }
     }
 
+    /**
+     * Puts the project into the database
+     * @throws ResearchException when adding project to database fails
+     */
     public void put() throws ResearchException {
         Database db = new Database();
-
         String query = "INSERT INTO project VALUES('" + this.ID + "', '" + this.name + "', '" + this.startDate + "', '" + this.endDate + "', '" + this.field + "', '" + this.description + ":');";
         query = query.replace(":", "");
         query = query.replace("''", "NULL");
@@ -64,6 +100,11 @@ public class Project {
         db.close();
     }
 
+    /**
+     * Check if any of the project attributes contain a string
+     * @param criteria The String to search for
+     * @return if the project contains the string
+     */
     public boolean containsString(String criteria) {
         return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria) || description.contains(criteria);
     }
@@ -80,6 +121,10 @@ public class Project {
                 '}';
     }
 
+    /**
+     * returns the ID of the project
+     * @return the project ID
+     */
     public int getID() {
         return this.ID;
     }

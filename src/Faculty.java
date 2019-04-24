@@ -1,10 +1,27 @@
 import java.util.ArrayList;
 
+
+/**
+ * Represents a Faculty user of the
+ *
+ * @author Avery Nutting-Hartman
+ */
 public class Faculty extends User {
 
+    /**
+     * The faculty members email
+     */
     private String email;
+    /**
+     * The faculty members department
+     */
     private String department;
 
+    /**
+     * Creates a faculty member object
+     * @param fname The faculty members first name
+     * @param lname The faculty members last name
+     */
     public Faculty(String fname, String lname) {
         super(fname, lname);
         try {
@@ -19,6 +36,10 @@ public class Faculty extends User {
         }
     }
 
+    /**
+     * Turns the faculty member instance into a pretty printable string
+     * @return String representation of a faculty member object
+     */
     @Override
     public String toString() {
         return "Faculty{" +

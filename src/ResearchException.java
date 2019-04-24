@@ -5,16 +5,39 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Exception that is used to hide the exception from the user and log it to a hidden log file
+ *
+ * @author Avery Nutting-Hartman
+ */
+
 public class ResearchException extends Exception {
+    /**
+     * Additional error messages
+     */
     private final String[] values;
+    /**
+     * The exception that occurred
+     */
     private Exception exception;
+    /**
+     * The default error message
+     */
     private String message = "Operation Failed";
 
+    /**
+     * Returns the default message
+     * @return
+     */
     @Override
     public String getMessage() {
         return message;
     }
 
+    /**
+     * creates new ResearchException object
+     * @param e The exception the occurred
+     */
     public ResearchException(Exception e) {
         super(e.getMessage());
         this.exception = e;
@@ -22,6 +45,11 @@ public class ResearchException extends Exception {
         writeLog();
     }
 
+    /**
+     * Create a Research exception object
+     * @param e the exception that occurred
+     * @param values extra values about the error
+     */
     public ResearchException(Exception e, String... values) {
         super(values[0]);
         this.exception = e;
@@ -30,15 +58,7 @@ public class ResearchException extends Exception {
     }
 
     /**
-     * Things to log
-     * stack trace
-     * exceptions maybe
-     * Time stamp
-     * source method or class
-     * message
-     * sql stmt that failed
-     * # of params if applicable
-     * user
+     * Writes all error information to an error log to be reviewed by DBA
      */
     public void writeLog() {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());

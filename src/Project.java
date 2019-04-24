@@ -50,7 +50,13 @@ public class Project {
     }
 
     /**
-     *creates a projects with all the fields passed in
+     * creates a projects with all the fields passed in
+     * @param ID the ID
+     * @param name The name
+     * @param startDate the start date
+     * @param endDate the end date
+     * @param field the field of the project
+     * @param description the description for the project
      */
     public Project(int ID, String name, String startDate, String endDate, String field, String description) {
         this.ID = ID;

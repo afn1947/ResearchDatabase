@@ -27,7 +27,7 @@ public class ResearchException extends Exception {
 
     /**
      * Returns the default message
-     * @return
+     * @return the default message
      */
     @Override
     public String getMessage() {

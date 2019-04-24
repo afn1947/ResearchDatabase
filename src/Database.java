@@ -258,8 +258,8 @@ public class Database {
 
     /**
      * prints the search results in a nice way
-     * @param query
-     * @throws ResearchException
+     * @param query the query to be executed
+     * @throws ResearchException when printing fails
      */
     public void printSearchResaults(String query) throws ResearchException {
 

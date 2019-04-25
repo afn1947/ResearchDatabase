@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 /**
  * The super class for all users that stores some common behavior
  *

@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 import java.util.ArrayList;
 
 /**

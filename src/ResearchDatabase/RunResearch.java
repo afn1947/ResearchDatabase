@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * Main class that runs the Faculty Research project application
+ * Main class that runs the ResearchDatabase.Faculty Research project application
  *
  * @author Avery Nutting-Hartman
  * @author Joseph Nowak
@@ -116,7 +118,7 @@ public class RunResearch {
         System.out.println("Enter ID of project to edit:");
         try {
             String id = input.readLine();
-            System.out.println("Enter Project Name:");
+            System.out.println("Enter ResearchDatabase.Project Name:");
             String name = input.readLine();
             System.out.println("Enter Start date (yyyy-mm-dd):");
             String start = input.readLine();
@@ -155,7 +157,7 @@ public class RunResearch {
                     break;
                 }
             }
-            System.out.println("Enter Project Name:");
+            System.out.println("Enter ResearchDatabase.Project Name:");
             String name = input.readLine();
             System.out.println("Enter Start date (yyyy-mm-dd):");
             String start = input.readLine();
@@ -261,7 +263,7 @@ public class RunResearch {
         System.out.println("faculty <project ID>");
         if (user instanceof Faculty) {
             System.out.println("add project");
-            System.out.println("edit <Project ID>");
+            System.out.println("edit <ResearchDatabase.Project ID>");
         }
         System.out.println("quit");
     }

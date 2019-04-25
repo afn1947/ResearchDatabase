@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -35,7 +37,7 @@ public class ResearchException extends Exception {
     }
 
     /**
-     * creates new ResearchException object
+     * creates new ResearchDatabase.ResearchException object
      * @param e The exception the occurred
      */
     public ResearchException(Exception e) {

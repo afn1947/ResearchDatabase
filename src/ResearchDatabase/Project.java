@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 import java.util.ArrayList;
 /**
  * Represents a project entry in the database
@@ -112,12 +114,12 @@ public class Project {
      * @return if the project contains the string
      */
     public boolean containsString(String criteria) {
-        return name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria) || description.contains(criteria);
+        return Integer.toString(ID).contains(criteria) || name.contains(criteria) || startDate.contains(criteria) || endDate.contains(criteria) || field.contains(criteria) || description.contains(criteria);
     }
 
     @Override
     public String toString() {
-        return "Project{" +
+        return "ResearchDatabase.Project{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
                 ", startDate=" + startDate +

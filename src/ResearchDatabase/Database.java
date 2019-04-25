@@ -1,3 +1,5 @@
+package ResearchDatabase;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -219,7 +221,7 @@ public class Database {
             conn = DriverManager.getConnection(uri, user, pass);
             return true;
         } catch (Exception e) {
-            throw new ResearchException(e, "Failed to open the database", "Connection string: " + uri, "User: " + user);
+            throw new ResearchException(e, "Failed to open the database", "Connection string: " + uri, "ResearchDatabase.User: " + user);
         }
     }
 

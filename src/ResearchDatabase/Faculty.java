@@ -1,8 +1,10 @@
+package ResearchDatabase;
+
 import java.util.ArrayList;
 
 
 /**
- * Represents a Faculty user of the
+ * Represents a ResearchDatabase.Faculty user of the
  *
  * @author Avery Nutting-Hartman
  */
@@ -42,7 +44,7 @@ public class Faculty extends User {
      */
     @Override
     public String toString() {
-        return "Faculty{" +
+        return "ResearchDatabase.Faculty{" +
                 "fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +

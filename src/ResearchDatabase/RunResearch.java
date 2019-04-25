@@ -263,7 +263,7 @@ public class RunResearch {
         System.out.println("faculty <project ID>");
         if (user instanceof Faculty) {
             System.out.println("add project");
-            System.out.println("edit <ResearchDatabase.Project ID>");
+            System.out.println("edit <Project ID>");
         }
         System.out.println("quit");
     }

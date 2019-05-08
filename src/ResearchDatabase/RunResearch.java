@@ -1,13 +1,9 @@
 package ResearchDatabase;
 
-import com.mysql.cj.Session;
-
 import java.util.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 /**
  * Main class that runs the ResearchDatabase.Faculty Research project application

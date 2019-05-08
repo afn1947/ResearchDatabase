@@ -1,12 +1,13 @@
 package ResearchDatabase;
 
+import com.mysql.cj.Session;
+
+import java.util.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Main class that runs the ResearchDatabase.Faculty Research project application
@@ -221,7 +222,6 @@ public class RunResearch {
         //System.out.println(criteria);
         LinkedHashSet<String> ids = new LinkedHashSet<>();
         List<String> searchWords = Arrays.asList(criteria);
-
         try {
             Database db = new Database();
             ArrayList<Project> projects = db.getProjects();
@@ -238,7 +238,6 @@ public class RunResearch {
             for (String id : ids) {
                 idString.append(id).append(",");
             }
-//            System.out.println(idString);
             try {
                 idString = new StringBuilder(idString.substring(0, idString.length() - 1));
                 String query = "SELECT * from project where project_id IN (" + idString + ");";
